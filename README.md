@@ -15,7 +15,7 @@ mkdir custom_components
 - 第二步，将face_detect文件夹放入custom_components文件夹中 
 - 第三步，重启HomeAssistant
 - 第四步，前往[百度AI开放平台创建人脸识别应用](https://console.bce.baidu.com/ai/?fromai=1#/ai/face/overview/index)，本应用需要用到appid，apikey，secretkey
-![百度AI](baidu.jpg)
+![百度AI](baidu.png)
 - 第五步，在HA中创建一个令牌
 
 

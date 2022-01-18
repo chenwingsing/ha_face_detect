@@ -65,6 +65,6 @@ camera:
 
 1.[百度人脸识别接口](https://ai.baidu.com/ai-doc/FACE/ek37c1qiz)
 
-2.学习了[和风天气插件]作者的写法(https://github.com/morestart/HeWeather)
+2.学习了[和风天气插件](https://github.com/morestart/HeWeather)作者的写法
 
-3.学习了[百度检测插件]作者的写法(https://github.com/Caffreyfans/baidu_face)
+3.学习了[百度检测插件](https://github.com/Caffreyfans/baidu_face)作者的写法

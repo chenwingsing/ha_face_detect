@@ -7,7 +7,7 @@
 
 ## 使用方法：
 
-- 第一步，在HomeAssistant根目录中中建立以下文件夹
+- 第一步，在HomeAssistant根目录中创建文件夹custom_components
 ```bash
 #linux
 mkdir custom_components

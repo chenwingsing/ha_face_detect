@@ -5,7 +5,7 @@
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
-![](https://img.shields.io/badge/license-MIT-000000.svg)
+![](https://img.shields.io/badge/license-MIT-blue.svg)
 # 更新时间：2022/1/18
 
 

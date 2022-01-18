@@ -46,6 +46,9 @@ sensor:
       - glasses #佩戴眼镜识别
       - expression #表情
 ```
+
+一些提示
+
 ```
 #可能有人不知道摄像头id是怎么填写，比如我们家摄像头的配置是这样的，那么entity_id会生成为camera.camera001，填入这个即可
 camera:

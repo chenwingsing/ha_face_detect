@@ -45,5 +45,7 @@ sensor:
 ## 参考
 刚入坑HomeAssistant不到一个月，有些地方还不是太熟悉，本程序可能有bug，请及时告诉我，大家一起测试，另外非常感谢下面的链接！！
 -[百度人脸识别接口](https://ai.baidu.com/ai-doc/FACE/ek37c1qiz)
+
 -[学习了和风天气插件作者的写法](https://github.com/morestart/HeWeather)
+
 -[学习了百度检测插件作者的写法](https://github.com/Caffreyfans/baidu_face)

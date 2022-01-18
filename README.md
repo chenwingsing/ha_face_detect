@@ -5,7 +5,7 @@
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
-
+![license](https://img.shields.io/github/license/MrChanGG/ha_face_detect)
 # 更新时间：2022/1/18
 
 
@@ -15,7 +15,6 @@
 
 - 第一步，在HomeAssistant根目录中中建立以下文件夹
 ```
-bash
 mkdir custom_components
 ```
 - 第二步，将face_detect文件夹放入custom_components文件夹中 

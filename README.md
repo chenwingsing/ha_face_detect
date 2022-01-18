@@ -1,5 +1,11 @@
 # 百度人脸检测插件v1.0
+[![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
+![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
+![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
+![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
+![license](https://img.shields.io/github/license/MrChanGG/ha_face_detect)
 # 更新时间：2022/1/18
 
 
@@ -46,8 +52,8 @@ sensor:
 ## 参考
 刚入坑HomeAssistant不到一个月，有些地方还不是太熟悉，本程序可能有bug，请及时告诉我，大家一起测试，另外非常感谢下面的链接！！
 
-[百度人脸识别接口](https://ai.baidu.com/ai-doc/FACE/ek37c1qiz)
+1.[百度人脸识别接口](https://ai.baidu.com/ai-doc/FACE/ek37c1qiz)
 
-学习了[和风天气插件作者的写法](https://github.com/morestart/HeWeather)
+2.学习了[和风天气插件作者的写法](https://github.com/morestart/HeWeather)
 
-学习了[百度检测插件作者的写法](https://github.com/Caffreyfans/baidu_face)
+3.学习了[百度检测插件作者的写法](https://github.com/Caffreyfans/baidu_face)

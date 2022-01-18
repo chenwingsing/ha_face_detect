@@ -54,7 +54,7 @@ sensor:
 camera:
   - platform: ffmpeg
     name: camera001
-    input: rtsp://admin:a85913660@192.168.31.68:554/ISAPI/Streaming/Channels/101
+    input: rtsp://账号:密码@192.168.31.68:554/ISAPI/Streaming/Channels/101
 ```
 ## 效果示意图
 很丑，厚码了~😭

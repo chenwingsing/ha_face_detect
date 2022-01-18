@@ -38,7 +38,7 @@ sensor:
     access_token: "*****" #Homeassistant的令牌
     host: "*****" #运行Homeassistant的ip地址
     port: "*****" #运行Homeassistant的端口
-    options: #可选识别的类型
+    options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项
       - age #年龄
       - beauty #颜值打分
       - emotion #情绪

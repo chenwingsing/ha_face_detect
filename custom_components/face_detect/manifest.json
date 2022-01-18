@@ -1,0 +1,9 @@
+{
+  "domain": "face_detect",
+  "name": "face_detect",
+  "documentation": "https://github.com/MrChanGG/ha_face_detect",
+  "requirements": ["requests"],
+  "codeowners": [],
+  "dependencies": [],
+  "version": "1.0.0"
+}

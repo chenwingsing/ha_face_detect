@@ -8,8 +8,8 @@
 ## 使用方法：
 
 - 第一步，在HomeAssistant根目录中中建立以下文件夹
-```
-bash
+```bash
+#linux
 mkdir custom_components
 ```
 - 第二步，将face_detect文件夹放入custom_components文件夹中 

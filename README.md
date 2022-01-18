@@ -45,8 +45,16 @@ sensor:
       - glasses #佩戴眼镜识别
       - expression #表情
 ```
+```
+#可能有人不知道摄像头id是怎么填写，比如我们家摄像头的配置是这样的，那么entity_id会生成为camera.camera001，填入这个即可
+camera:
+  - platform: ffmpeg
+    name: camera001
+    input: rtsp://admin:a85913660@192.168.31.68:554/ISAPI/Streaming/Channels/101
+```
 ## 效果示意图
 很丑，厚码了~😭
+
 ![效果](example.jpg)
 ## 参考
 刚入坑HomeAssistant不到一个月，有些地方还不是太熟悉，本程序可能有bug，请及时告诉我，大家一起测试，另外非常感谢下面的链接！！

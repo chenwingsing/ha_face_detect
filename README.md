@@ -13,7 +13,7 @@
 
 ## 使用方法：
 
-- 第一步，在HomeAssistant根目录中中建立以下文件夹
+- 第一步，在HomeAssistant根目录中建立以下文件夹
 ```
 mkdir custom_components
 ```

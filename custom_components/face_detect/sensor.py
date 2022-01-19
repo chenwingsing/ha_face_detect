@@ -51,18 +51,15 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     _LOGGER.info("Setup platform sensor.face_detect")
-    path = hass.config.path('custom_components/face_detect/www/')
-    if not os.path.exists(path):
-        os.makedirs(path)
     appid = config.get(CONF_APP_ID)
     apikey = config.get(CONF_API_KEY)
-    secretykey = config.get(CONF_SECRET_KEY)
+    secretkey = config.get(CONF_SECRET_KEY)
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT)
     cameraid = config.get(CONF_ENTITY_ID)
     accesstoken = config.get(CONF_ACCESS_TOKEN)
 
-    data = FaceDetectdata(appid, apikey, secretykey, host, port, cameraid, accesstoken)
+    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken)
 
     dev = []
     for option in config[CONF_OPTIONS]:
@@ -133,10 +130,10 @@ class FaceDetectSensor(Entity):
 
 
 class FaceDetectdata(object):
-    def __init__(self, appid, apikey, secretykey, host, port, cameraid, accesstoken):
+    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken):
         self._appid = appid
         self._apikey = apikey
-        self._secretykey = secretykey
+        self._secretkey = secretkey
         self._host = host
         self._port = port
         self._cameraid = cameraid
@@ -186,9 +183,8 @@ class FaceDetectdata(object):
         return response.content
 
     def baidu_facedetect(self):
-        self._client = AipFace(self._appid, self._apikey, self._secretykey)
+        self._client = AipFace(self._appid, self._apikey, self._secretkey)
         img_data = self.get_picture()
-        save_picture(img_data)
         data = base64.b64encode(img_data)
         image = data.decode()
         imageType = "BASE64"

@@ -12,7 +12,7 @@ from aip import AipFace
 from homeassistant.util import Throttle
 
 _LOGGER = logging.getLogger(__name__)
-TIME_BETWEEN_UPDATES = timedelta(seconds=1)
+TIME_BETWEEN_UPDATES = timedelta(seconds=2)
 
 CONF_OPTIONS = "options"
 CONF_APP_ID = 'app_id'
@@ -51,6 +51,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     _LOGGER.info("Setup platform sensor.face_detect")
+    save_path = hass.config.path('custom_components/face_detect/www/')
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
     appid = config.get(CONF_APP_ID)
     apikey = config.get(CONF_API_KEY)
     secretkey = config.get(CONF_SECRET_KEY)
@@ -59,7 +62,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     cameraid = config.get(CONF_ENTITY_ID)
     accesstoken = config.get(CONF_ACCESS_TOKEN)
 
-    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken)
+    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path)
 
     dev = []
     for option in config[CONF_OPTIONS]:
@@ -130,12 +133,13 @@ class FaceDetectSensor(Entity):
 
 
 class FaceDetectdata(object):
-    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken):
+    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path):
         self._appid = appid
         self._apikey = apikey
         self._secretkey = secretkey
         self._host = host
         self._port = port
+        self._save_path = save_path
         self._cameraid = cameraid
         self._accesstoken = accesstoken
         self._age = None
@@ -181,7 +185,14 @@ class FaceDetectdata(object):
         camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
         response = requests.get(camera_url, headers=headers)
         return response.content
-
+        
+    def save_picture(self, time, content, beauty):
+        savepath = self._save_path + time + "---"+str(beauty) + '.jpg'
+        if not os.path.exists(savepath):
+            with open(savepath, 'wb') as fp:
+                fp.write(content)
+                fp.close()
+                
     def baidu_facedetect(self):
         self._client = AipFace(self._appid, self._apikey, self._secretkey)
         img_data = self.get_picture()
@@ -194,17 +205,18 @@ class FaceDetectdata(object):
         options["max_face_num"] = 1
         options["face_type"] = "LIVE"
         res = self._client.detect(image, imageType, options)
-        return res
+        return res,img_data
     
     @Throttle(TIME_BETWEEN_UPDATES)
     def update(self):
         try :
-            res = self.baidu_facedetect()
+            res,img_data = self.baidu_facedetect()
         except Exception as e:
             logging.info(e)
         _LOGGER.info("Update from BaiDuAI...")
 
         try :
+
             self._age = res["result"]["face_list"][0]["age"]
             self._beauty = res["result"]["face_list"][0]["beauty"]
             
@@ -249,9 +261,13 @@ class FaceDetectdata(object):
             elif (expression == "laugh"):
                 expression = "大笑"
             self._expression = expression
-            
+            self.save_picture(self._updatetime, img_data ,self._beauty)
         except Exception as e:
             logging.info(e)
         self._updatetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            
+            
+            
+          
 
 

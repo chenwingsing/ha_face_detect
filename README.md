@@ -6,10 +6,11 @@
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
-# 更新时间：2022/1/18
+# 更新时间：2022/1/19
 
-
-# 提前告知  本应用需要有摄像头
+# 功能特性
+- 利用摄像头拍取的图片识别年龄，情绪，性别，佩戴眼镜与否，表情，颜值打分
+- 保存人脸信息在face_detect/www文件夹中，图片命名为:时间---颜值打分.jpg 
 
 ## 使用方法：
 
@@ -69,7 +70,6 @@ print(client.getVersion())
 很丑，厚码了~😭
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以根据自己改，本程序遇到多个人会识别面积最大的那个人
-2. 后期可能加上保存图片，目前没啥时间，赶着写论文
 
 ## 参考
 刚入坑HomeAssistant不到一个月，有些地方还不是太熟悉，本程序可能有bug，请及时告诉我，大家一起测试，另外非常感谢下面的链接！！

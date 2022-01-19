@@ -13,9 +13,9 @@
 
 ## 使用方法：
 
-- 第一步，在HomeAssistant根目录中建立以下文件夹
+- 第一步，在HomeAssistant根目录中建立文件夹custom_components
 ```
-mkdir custom_components
+mkdir custom_components   #linux
 ```
 - 第二步，将face_detect文件夹放入custom_components文件夹中 
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
@@ -29,14 +29,14 @@ mkdir custom_components
 ``` yaml
 sensor:
   - platform: face_detect
-    app_id: "*****"  #百度人脸识别应用的appid
-    api_key: "*****" #百度人脸识别应用的apikey
-    secret_key: "*****" #百度人脸识别应用的secret_key
-    entity_id: "*****" #摄像头的实体id
-    access_token: "*****" #Homeassistant的令牌
-    host: "*****" #运行Homeassistant的ip地址
-    port: "*****" #运行Homeassistant的端口
-    options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项
+    app_id: "*****"  #百度人脸识别应用的appid，必填项目
+    api_key: "*****" #百度人脸识别应用的apikey，必填项目
+    secret_key: "*****" #百度人脸识别应用的secret_key，必填项目
+    entity_id: "*****" #摄像头的实体id，必填项目
+    access_token: "*****" #Homeassistant的令牌，必填项目
+    host: "*****" #运行Homeassistant的ip地址，必填项目
+    port: "*****" #运行Homeassistant的端口，必填项目
+    options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项，选填项目
       - age #年龄
       - beauty #颜值打分
       - emotion #情绪

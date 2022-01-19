@@ -6,16 +6,17 @@
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
-# 更新时间：2022/1/18
+# 更新时间：2022/1/19
 
-
-# 提前告知  本应用需要有摄像头
+# 功能特性
+- 利用摄像头拍取的图片识别年龄，情绪，性别，佩戴眼镜与否，表情，颜值打分
+- 保存人脸信息在face_detect/www文件夹中，图片命名为:时间---颜值打分.jpg 
 
 ## 使用方法：
 
 - 第一步，在HomeAssistant根目录中建立文件夹custom_components
 ```
-mkdir custom_components   #linux
+mkdir custom_components #linux
 ```
 - 第二步，将face_detect文件夹放入custom_components文件夹中 
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
@@ -54,6 +55,7 @@ camera:
     name: camera001
     input: rtsp://账号:密码@192.168.31.68:554/ISAPI/Streaming/Channels/101
 ```
+
 如果运行不成功，请检查**python的baidu-aip包的版本，我的环境是2_2_18**，在测试的时候发现1_6_6版本是无法使用的！
 ```
 #查看baidu-aip版本方法,进入python环境后
@@ -61,9 +63,9 @@ from aip import AipFace
 client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
 print(client.getVersion())
 ```
+
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以根据自己改，本程序遇到多个人会识别面积最大的那个人
-2. 后期可能加上保存图片，目前没啥时间，赶着写论文
 
 ## 参考
 刚入坑HomeAssistant不到一个月，有些地方还不是太熟悉，本程序可能有bug，请及时告诉我，大家一起测试，另外非常感谢下面的链接！！

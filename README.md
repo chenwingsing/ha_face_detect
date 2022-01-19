@@ -61,7 +61,7 @@ camera:
 ```
 #查看baidu-aip版本方法,进入python环境后
 from aip import AipFace
-client = AipFace(APP_ID, API_KEY, SECRET_KEY)
+client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
 print(client.getVersion())
 ```
 ## 效果示意图

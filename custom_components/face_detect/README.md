@@ -55,7 +55,12 @@ camera:
     input: rtsp://账号:密码@192.168.31.68:554/ISAPI/Streaming/Channels/101
 ```
 如果运行不成功，请检查**python的baidu-aip包的版本，我的环境是2_2_18**，在测试的时候发现1_6_6版本是无法使用的！
-
+```
+#查看baidu-aip版本方法,进入python环境后
+from aip import AipFace
+client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
+print(client.getVersion())
+```
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以根据自己改，本程序遇到多个人会识别面积最大的那个人
 2. 后期可能加上保存图片，目前没啥时间，赶着写论文

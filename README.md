@@ -13,9 +13,9 @@
 
 ## 使用方法：
 
-- 第一步，在HomeAssistant根目录中建立以下文件夹
+- 第一步，在HomeAssistant根目录中建立文件夹custom_components
 ```
-mkdir custom_components
+mkdir custom_components #linux
 ```
 - 第二步，将face_detect文件夹放入custom_components文件夹中 
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**

@@ -65,6 +65,10 @@ from aip import AipFace
 client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
 print(client.getVersion())
 ```
+baidu-aip升级命令
+```
+pip install --upgrade baidu-aip -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 ## 效果示意图
 ![效果](example.jpg)
 很丑，厚码了~😭

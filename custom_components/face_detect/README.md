@@ -63,7 +63,10 @@ from aip import AipFace
 client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
 print(client.getVersion())
 ```
-
+baidu-aip升级命令
+```
+pip install --upgrade baidu-aip -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以根据自己改，本程序遇到多个人会识别面积最大的那个人
 

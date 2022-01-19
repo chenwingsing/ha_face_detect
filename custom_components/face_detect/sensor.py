@@ -12,7 +12,7 @@ from aip import AipFace
 from homeassistant.util import Throttle
 
 _LOGGER = logging.getLogger(__name__)
-TIME_BETWEEN_UPDATES = timedelta(seconds=2)
+TIME_BETWEEN_UPDATES = timedelta(seconds=1)
 
 CONF_OPTIONS = "options"
 CONF_APP_ID = 'app_id'

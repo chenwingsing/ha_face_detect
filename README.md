@@ -22,8 +22,8 @@ mkdir custom_components #linux
 - 第二步，将face_detect文件夹放入custom_components文件夹中 
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
 - 第四步，前往[百度AI开放平台创建人脸识别应用](https://console.bce.baidu.com/ai/?fromai=1#/ai/face/overview/index)，本应用需要用到appid，apikey，secretkey
- ![百度AI](baidu1.png)
- ![百度AI](baidu2.png)
+ ![百度AI](pic/baidu1.png)
+ ![百度AI](pic/baidu2.png)
 - 第五步，在HA中创建一个令牌
 - 第六步，填写好configuration.yaml的内容，然后再重启一次HomeAssistant
 - 第七步，添加实体到概览上即可
@@ -71,11 +71,11 @@ pip install --upgrade baidu-aip -i https://pypi.tuna.tsinghua.edu.cn/simple
 ## 效果示意图
 很丑，厚码了~😭
 
-![效果](example.jpg)
+![效果](pic/example1.png)
 
 云端识别到有人脸会自动保存信息
 
-![效果](example2.png)
+![效果](pic/example2.png)
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以自己修改程序，本程序则是遇到多个人会识别面积最大的那个人
 

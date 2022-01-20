@@ -70,8 +70,11 @@ pip install --upgrade baidu-aip -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 ## 效果示意图
 很丑，厚码了~😭
+
 ![效果](example.jpg)
+
 云端识别到有人脸会自动保存信息
+
 ![效果](example2.jpg)
 ## 说明
 1. 只能识别一个人，百度其实是可以设置多人的，你可以根据自己改，本程序遇到多个人会识别面积最大的那个人

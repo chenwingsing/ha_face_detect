@@ -60,10 +60,8 @@ camera:
 
 如果运行不成功，请检查**python的baidu-aip包的版本，我的环境是2_2_18**，在测试的时候发现1_6_6版本是无法使用的！
 ```
-#查看baidu-aip版本方法,进入python环境后
-from aip import AipFace
-client = AipFace('APP_ID', 'API_KEY', 'SECRET_KEY')#填上申请百度应用后的对应信息
-print(client.getVersion())
+#查看baidu-aip版本方法
+pip show baidu-aip
 ```
 baidu-aip升级命令
 ```

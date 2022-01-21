@@ -12,7 +12,7 @@ from aip import AipFace
 from homeassistant.util import Throttle
 
 _LOGGER = logging.getLogger(__name__)
-TIME_BETWEEN_UPDATES = timedelta(seconds=2)
+TIME_BETWEEN_UPDATES = timedelta(seconds=1)
 
 CONF_OPTIONS = "options"
 CONF_APP_ID = 'app_id'
@@ -36,7 +36,7 @@ OPTIONS = dict(age=["baidu_age", "年龄", "mdi:account", "岁"],
 ATTR_UPDATE_TIME = "更新时间"
 ATTRIBUTION = "Powered by BaiDuAI"
 ATTRIBUTION_POWER = "强力支持"
-SCAN_INTERVAL = timedelta(seconds=1)
+
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {   vol.Required(CONF_OPTIONS, default=[]): vol.All(cv.ensure_list, [vol.In(OPTIONS)]),
         vol.Required(CONF_APP_ID): cv.string,

@@ -210,9 +210,14 @@ class FaceDetectdata(object):
         t = int(round(time.time()))
         headers = {'Authorization': "Bearer {}".format(self._accesstoken),
                'content-type': 'application/json'}
-        http_url = "http://{}:{}".format(self._host, self._port)
-        camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
-        response = requests.get(camera_url, headers=headers)
+        try:
+            http_url = "https://{}:{}".format(self._host, self._port)
+            camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
+            response = requests.get(camera_url, headers=headers)
+        except:
+            http_url = "http://{}:{}".format(self._host, self._port)
+            camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
+            response = requests.get(camera_url, headers=headers)
         return response.content
         
     def save_picture(self, content, age, emotion, beauty, gender):

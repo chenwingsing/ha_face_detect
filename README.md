@@ -8,7 +8,7 @@
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-# 更新时间：2022/1/22 如果你是旧版本的，可以重新下载安装配置
+# 更新时间：2022/1/22  如果你是旧版本的，可以重新下载安装配置
 
 # 1. 功能特性
 

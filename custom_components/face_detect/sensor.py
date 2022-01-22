@@ -22,7 +22,7 @@ CONF_SECRET_KEY = 'secret_key'
 CONF_HOST = 'host'
 CONF_PORT = 'port'
 CONF_ACCESS_TOKEN = 'access_token'
-
+CONF_GROUP_LIST = 'group_list'
 
 
 OPTIONS = dict(age=["baidu_age", "年龄", "mdi:account", "岁"],
@@ -30,12 +30,14 @@ OPTIONS = dict(age=["baidu_age", "年龄", "mdi:account", "岁"],
                emotion=["baidu_emotion", "情绪", "mdi:emoticon-excited-outline", None],
                gender=["baidu_gender", "性别", "mdi:gender-female", None],
                glasses=["baidu_glasses", "眼镜识别", "mdi:glasses", None],
-               expression=["baidu_expression", "表情", "mdi:emoticon-neutral-outline", None]
+               expression=["baidu_expression", "表情", "mdi:emoticon-neutral-outline", None],
+               faceshape=["baidu_faceshape", "脸型", "mdi:baby-face-outline", None]
                )
 
-ATTR_UPDATE_TIME = "更新时间"
-ATTRIBUTION = "Powered by BaiDuAI"
+ATTRIBUTION_UPDATE_TIME = "更新时间"
+ATTRIBUTION_CHECK = "识别状态"
 ATTRIBUTION_POWER = "强力支持"
+ATTRIBUTION_FACE = "人脸对比"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {   vol.Required(CONF_OPTIONS, default=[]): vol.All(cv.ensure_list, [vol.In(OPTIONS)]),
@@ -46,6 +48,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Required(CONF_PORT): cv.string,
         vol.Required(CONF_ENTITY_ID): cv.string,
         vol.Required(CONF_ACCESS_TOKEN): cv.string,
+        vol.Required(CONF_GROUP_LIST): cv.string
     }
 )
 
@@ -61,8 +64,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     port = config.get(CONF_PORT)
     cameraid = config.get(CONF_ENTITY_ID)
     accesstoken = config.get(CONF_ACCESS_TOKEN)
-
-    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path)
+    grouplist = config.get(CONF_GROUP_LIST)
+    
+    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist)
 
     dev = []
     for option in config[CONF_OPTIONS]:
@@ -81,6 +85,9 @@ class FaceDetectSensor(Entity):
         self._type = option
         self._state = None
         self._updatetime = None
+        self._check = "否"
+        self._face = "无"
+        self._grouplist = None
 
     @property
     def unique_id(self):
@@ -104,19 +111,24 @@ class FaceDetectSensor(Entity):
 
     @property  
     def extra_state_attributes(self):
-        global ATTRIBUTION
-
-        ATTRIBUTION = "Powered by BaiDuAI"
+        global ATTRIBUTION_POWER
+        
+        ATTRIBUTION__POWER = "Powered by BaiDuAI"
+        
 
         return {
-            ATTR_UPDATE_TIME: self._updatetime,
-            ATTRIBUTION_POWER: ATTRIBUTION,
+            ATTRIBUTION_UPDATE_TIME: self._updatetime,
+            ATTRIBUTION_POWER: ATTRIBUTION__POWER,
+            ATTRIBUTION_CHECK: self._check,
+            ATTRIBUTION_FACE: self._face,
         }
 
 
     def update(self):
         self._data.update()
         self._updatetime = self._data.updatetime
+        self._check = self._data.check
+        self._face = self._data.face
 
         if self._type == "age":
             self._state = self._data.age
@@ -130,10 +142,12 @@ class FaceDetectSensor(Entity):
             self._state = self._data.glasses
         elif self._type == "expression":
             self._state = self._data.expression
+        elif self._type == "faceshape":
+            self._state = self._data.faceshape
 
 
 class FaceDetectdata(object):
-    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path):
+    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist):
         self._appid = appid
         self._apikey = apikey
         self._secretkey = secretkey
@@ -142,12 +156,14 @@ class FaceDetectdata(object):
         self._save_path = save_path
         self._cameraid = cameraid
         self._accesstoken = accesstoken
+        self._grouplist = grouplist
         self._age = None
         self._beauty = None
         self._emotion = None
         self._gender = None
         self._glasses = None
         self._expression = None
+        self._faceshape = None
 
     @property
     def age(self):
@@ -172,10 +188,23 @@ class FaceDetectdata(object):
     @property
     def expression(self):
         return self._expression
+        
+    @property
+    def faceshape(self):
+        return self._faceshape
 
     @property
     def updatetime(self):
         return self._updatetime
+        
+    @property  #识别状态
+    def check(self):
+        return self._check
+    
+    @property  #人脸对比
+    def face(self):
+        return self._face
+        
         
     def get_picture(self):
         t = int(round(time.time()))
@@ -186,8 +215,8 @@ class FaceDetectdata(object):
         response = requests.get(camera_url, headers=headers)
         return response.content
         
-    def save_picture(self, time, content, beauty):
-        savepath = self._save_path + time + "---"+str(beauty) + '.jpg'
+    def save_picture(self, content, age, emotion, beauty, gender):
+        savepath = self._save_path + str(age) + "-" + str(emotion) + "-" + str(beauty) + "-" + str(gender) + '.jpg'
         if not os.path.exists(savepath):
             with open(savepath, 'wb') as fp:
                 fp.write(content)
@@ -200,27 +229,37 @@ class FaceDetectdata(object):
         image = data.decode()
         imageType = "BASE64"
         self._client.detect(image, imageType)
+        #人脸检测
         options = {}
         options["face_field"] = "beauty,age,faceshape,expression,emotion,gender,glasses"
         options["max_face_num"] = 1
         options["face_type"] = "LIVE"
-        res = self._client.detect(image, imageType, options)
-        return res,img_data
+        res1 = self._client.detect(image, imageType, options)
+        #人脸搜索
+        options = {}
+        options["max_face_num"] = 1
+        options["match_threshold"] = 70
+        options["quality_control"] = "NORMAL"
+        options["liveness_control"] = "LOW"
+        options["max_user_num"] = 1
+        res2 = self._client.multiSearch(image, imageType, self._grouplist, options)
+
+        return res1,img_data,res2
     
     @Throttle(TIME_BETWEEN_UPDATES)
     def update(self):
         try :
-            res,img_data = self.baidu_facedetect()
+            res1, img_data, res2 = self.baidu_facedetect()
         except Exception as e:
             logging.info(e)
         _LOGGER.info("Update from BaiDuAI...")
 
         try :
 
-            self._age = res["result"]["face_list"][0]["age"]
-            self._beauty = res["result"]["face_list"][0]["beauty"]
+            self._age = res1["result"]["face_list"][0]["age"]
+            self._beauty = res1["result"]["face_list"][0]["beauty"]
             
-            emotion = res["result"]["face_list"][0]["emotion"]["type"]
+            emotion = res1["result"]["face_list"][0]["emotion"]["type"]
             if (emotion == "angry"):
                 emotion = "愤怒"
             elif (emotion == "disgust"):
@@ -235,16 +274,18 @@ class FaceDetectdata(object):
                 emotion = "惊讶"
             elif (emotion == "neutral"):
                 emotion = "无情绪"
+            elif (emotion == "grimace"):
+                emotion = "鬼脸"
             self._emotion = emotion
             
-            gender = res["result"]["face_list"][0]["gender"]["type"]
+            gender = res1["result"]["face_list"][0]["gender"]["type"]
             if (gender == "male"):
                 gender = "男生"
             elif (gender == "female"):
                 gender = "女生"
             self._gender = gender
             
-            glasses = res["result"]["face_list"][0]["glasses"]["type"]
+            glasses = res1["result"]["face_list"][0]["glasses"]["type"]
             if (glasses == "none"):
                 glasses = "没有佩戴眼镜"
             elif (glasses == "common"):
@@ -253,7 +294,7 @@ class FaceDetectdata(object):
                 glasses = "墨镜"
             self._glasses = glasses
             
-            expression = res["result"]["face_list"][0]["expression"]["type"]
+            expression = res1["result"]["face_list"][0]["expression"]["type"]
             if (expression == "none"):
                 expression = "没有微笑"
             elif (expression == "smile"):
@@ -261,10 +302,37 @@ class FaceDetectdata(object):
             elif (expression == "laugh"):
                 expression = "大笑"
             self._expression = expression
-            self.save_picture(self._updatetime, img_data ,self._beauty)
+            
+            faceshape = res1["result"]["face_list"][0]["face_shape"]["type"]
+            if (faceshape == "square"):
+                faceshape = "正方形脸"
+            elif (faceshape == "triangle"):
+                faceshape = "三角形脸"
+            elif (faceshape == "oval"):
+                faceshape = "椭圆脸"
+            elif (faceshape == "heart"):
+                faceshape = "心型脸"
+            elif (faceshape == "round"):
+                faceshape = "圆型脸"
+            self._faceshape = faceshape
+            
+            self.save_picture(img_data , self._age, self._emotion, self._beauty, self._gender)
+            
         except Exception as e:
             logging.info(e)
         self._updatetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        if (res1["result"] is None):
+            self._check = "否"
+        else :
+            self._check = "是"
+        if (res2["result"] is None):
+            self._face = "无"
+        else :
+            self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
+        
+          
+            
+            
             
             
             

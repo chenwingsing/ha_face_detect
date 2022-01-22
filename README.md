@@ -211,7 +211,7 @@ mode: single
 
 如果你刚刚入坑HomeAssistant，可以看看我知乎的文章~
 
-- [ 树莓派HomeAssistant系列（零）Docker安装](https://zhuanlan.zhihu.com/p/452889766)
+- [树莓派HomeAssistant系列（零）Docker安装](https://zhuanlan.zhihu.com/p/452889766)
 
 - [树莓派HomeAssistant系列（一）外网远程访问控制(免费)（内有Homekit在Docker下未找到配件的原因）](https://zhuanlan.zhihu.com/p/452676882)
 

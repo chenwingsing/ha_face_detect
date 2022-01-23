@@ -234,7 +234,7 @@ class FaceDetectdata(object):
     def removefile(self):
         path = self._save_path #需要清空的文件夹
         files = list(os.walk(path)) #获得所有文件夹的信息列表
-        delta = datetime.timedelta(seconds=1) #设定过期时间
+        delta = datetime.timedelta(seconds=int(self._deletetime)) #设定过期时间
         now = datetime.datetime.now() #获取当前时间
         for file in files: #遍历该列表
             os.chdir(file[0]) #进入本级路径，防止找不到文件而报错

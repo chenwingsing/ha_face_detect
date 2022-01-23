@@ -6,7 +6,7 @@ import requests
 import time
 from homeassistant.helpers.entity import Entity
 import base64
-import os
+import os,datetime
 from datetime import timedelta
 from aip import AipFace
 from homeassistant.util import Throttle
@@ -23,7 +23,7 @@ CONF_HOST = 'host'
 CONF_PORT = 'port'
 CONF_ACCESS_TOKEN = 'access_token'
 CONF_GROUP_LIST = 'group_list'
-
+CONF_DELETE_TIME = 'delete_time'
 
 OPTIONS = dict(age=["baidu_age", "年龄", "mdi:account", "岁"],
                beauty=["baidu_beauty", "颜值", "mdi:face-woman-shimmer", "分"],
@@ -48,7 +48,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Required(CONF_PORT): cv.string,
         vol.Required(CONF_ENTITY_ID): cv.string,
         vol.Required(CONF_ACCESS_TOKEN): cv.string,
-        vol.Required(CONF_GROUP_LIST): cv.string
+        vol.Required(CONF_GROUP_LIST): cv.string,
+        vol.Required(CONF_DELETE_TIME): cv.string
     }
 )
 
@@ -66,8 +67,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     cameraid = config.get(CONF_ENTITY_ID)
     accesstoken = config.get(CONF_ACCESS_TOKEN)
     grouplist = config.get(CONF_GROUP_LIST)
+    deletetime = config.get(CONF_DELETE_TIME)
     
-    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist)
+    data = FaceDetectdata(appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist, deletetime)
 
     dev = []
     for option in config[CONF_OPTIONS]:
@@ -148,7 +150,7 @@ class FaceDetectSensor(Entity):
 
 
 class FaceDetectdata(object):
-    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist):
+    def __init__(self, appid, apikey, secretkey, host, port, cameraid, accesstoken, save_path, grouplist, deletetime):
         self._appid = appid
         self._apikey = apikey
         self._secretkey = secretkey
@@ -158,6 +160,7 @@ class FaceDetectdata(object):
         self._cameraid = cameraid
         self._accesstoken = accesstoken
         self._grouplist = grouplist
+        self._deletetime = deletetime
         self._age = None
         self._beauty = None
         self._emotion = None
@@ -228,6 +231,34 @@ class FaceDetectdata(object):
                 fp.write(content)
                 fp.close()
                 
+    def removefile(self):
+        path = self._save_path #需要清空的文件夹
+        files = list(os.walk(path)) #获得所有文件夹的信息列表
+        delta = datetime.timedelta(seconds=1) #设定过期时间
+        now = datetime.datetime.now() #获取当前时间
+        for file in files: #遍历该列表
+            os.chdir(file[0]) #进入本级路径，防止找不到文件而报错
+            if file[2] != []: #如果该路径下有文件
+                for x in file[2]: #遍历这些文件
+                    ctime = datetime.datetime.fromtimestamp(os.path.getctime(x)) #获取文件创建时间
+                    print(ctime)
+                    if ctime < (now-delta): 
+                        os.remove(x)    
+                        
+    def removefile(self):
+        path = self._save_path #需要清空的文件夹
+        files = list(os.walk(path)) #获得所有文件夹的信息列表
+        delta = datetime.timedelta(seconds=int(self._deletetime)) #设定过期时间
+        now = datetime.datetime.now() #获取当前时间
+        for file in files: #遍历该列表
+            os.chdir(file[0]) #进入本级路径，防止找不到文件而报错
+            if file[2] != []: #如果该路径下有文件
+                for x in file[2]: #遍历这些文件
+                    ctime = datetime.datetime.fromtimestamp(os.path.getctime(x)) #获取文件创建时间
+                    print(ctime)
+                    if ctime < (now-delta): 
+                        os.remove(x)      
+                        
     def baidu_facedetect(self):
         self._client = AipFace(self._appid, self._apikey, self._secretkey)
         img_data = self.get_picture()
@@ -257,8 +288,7 @@ class FaceDetectdata(object):
         res1, img_data, res2 = self.baidu_facedetect()
         _LOGGER.info("Update from BaiDuAI...")
         try :
-            self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
-
+            
             self._age = res1["result"]["face_list"][0]["age"]
             self._beauty = res1["result"]["face_list"][0]["beauty"]
             
@@ -320,7 +350,7 @@ class FaceDetectdata(object):
             self._faceshape = faceshape
             
             self.save_picture(img_data , self._age, self._emotion, self._beauty, self._gender)
-            
+            self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
         except Exception as e:
             self._face = "无"
             logging.info(e)
@@ -329,3 +359,4 @@ class FaceDetectdata(object):
             self._check = "否"
         else :
             self._check = "是"
+        self.removefile()

@@ -1,7 +1,7 @@
-﻿# HomeAssistant百度人脸检测插件v2.0.3
+# HomeAssistant百度人脸检测插件v2.1.0
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
-[![version](https://img.shields.io/badge/face__detect-v2.0.3-blue)](https://github.com/MrChanGG/ha_face_detect)
+[![version](https://img.shields.io/badge/face__detect-v2.1.0-blue)](https://github.com/MrChanGG/ha_face_detect)
 
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
@@ -28,13 +28,10 @@
 
 - 紧急修复用https登录的用户无法使用插件的问题
 
-## v2.0.2
+## v2.1.0
 
-- 紧急修复某个实体可能不可用的bug
+- 增加定时清理功能，及时清理保存的截图(配置文件有变化)
 
-## v2.0.3
-
-- 扫描时间优化(**注意配置文件有更新**)
 # 2. 使用方法：
 
 - 第一步，在HomeAssistant根目录中建立文件夹custom_components
@@ -73,6 +70,7 @@ sensor:
     port: "*****" #运行Homeassistant的端口，必填项目，如8123
     group_list: "**,**,**" #百度应用内的查看人脸库用户组编号，最多可以填10个，请用英文逗号隔开
     scan_interval: 1 #扫描时间，默认这个即可
+    delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的文件，如果是1小时，则填3600
     options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项，选填项目
       - age #年龄
       - beauty #颜值打分

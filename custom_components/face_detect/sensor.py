@@ -244,20 +244,7 @@ class FaceDetectdata(object):
                     print(ctime)
                     if ctime < (now-delta): 
                         os.remove(x)    
-                        
-    def removefile(self):
-        path = self._save_path #需要清空的文件夹
-        files = list(os.walk(path)) #获得所有文件夹的信息列表
-        delta = datetime.timedelta(seconds=int(self._deletetime)) #设定过期时间
-        now = datetime.datetime.now() #获取当前时间
-        for file in files: #遍历该列表
-            os.chdir(file[0]) #进入本级路径，防止找不到文件而报错
-            if file[2] != []: #如果该路径下有文件
-                for x in file[2]: #遍历这些文件
-                    ctime = datetime.datetime.fromtimestamp(os.path.getctime(x)) #获取文件创建时间
-                    print(ctime)
-                    if ctime < (now-delta): 
-                        os.remove(x)      
+                            
                         
     def baidu_facedetect(self):
         self._client = AipFace(self._appid, self._apikey, self._secretkey)

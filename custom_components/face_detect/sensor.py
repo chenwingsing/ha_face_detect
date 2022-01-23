@@ -12,7 +12,7 @@ from aip import AipFace
 from homeassistant.util import Throttle
 
 _LOGGER = logging.getLogger(__name__)
-SCAN_INTERVAL = timedelta(seconds=1)
+TIME_BETWEEN_UPDATES = timedelta(seconds=1)
 
 CONF_OPTIONS = "options"
 CONF_APP_ID = 'app_id'
@@ -252,7 +252,7 @@ class FaceDetectdata(object):
 
         return res1,img_data,res2
     
-
+    @Throttle(TIME_BETWEEN_UPDATES)
     def update(self):
         res1, img_data, res2 = self.baidu_facedetect()
         _LOGGER.info("Update from BaiDuAI...")

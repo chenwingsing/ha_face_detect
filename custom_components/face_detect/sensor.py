@@ -54,6 +54,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     _LOGGER.info("Setup platform sensor.face_detect")
+    time.sleep(1)
     save_path = hass.config.path('custom_components/face_detect/www/')
     if not os.path.exists(save_path):
         os.makedirs(save_path)
@@ -211,11 +212,11 @@ class FaceDetectdata(object):
         headers = {'Authorization': "Bearer {}".format(self._accesstoken),
                'content-type': 'application/json'}
         try:
-            http_url = "https://{}:{}".format(self._host, self._port)
+            http_url = "http://{}:{}".format(self._host, self._port)
             camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
             response = requests.get(camera_url, headers=headers)
         except:
-            http_url = "http://{}:{}".format(self._host, self._port)
+            http_url = "https://{}:{}".format(self._host, self._port)
             camera_url = "{}/api/camera_proxy/{}?time={} -o image.jpg".format(http_url, self._cameraid, t)
             response = requests.get(camera_url, headers=headers)
         return response.content
@@ -253,13 +254,10 @@ class FaceDetectdata(object):
     
 
     def update(self):
-        try :
-            res1, img_data, res2 = self.baidu_facedetect()
-        except Exception as e:
-            logging.info(e)
+        res1, img_data, res2 = self.baidu_facedetect()
         _LOGGER.info("Update from BaiDuAI...")
-
         try :
+            self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
 
             self._age = res1["result"]["face_list"][0]["age"]
             self._beauty = res1["result"]["face_list"][0]["beauty"]
@@ -324,23 +322,10 @@ class FaceDetectdata(object):
             self.save_picture(img_data , self._age, self._emotion, self._beauty, self._gender)
             
         except Exception as e:
+            self._face = "无"
             logging.info(e)
         self._updatetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         if (res1["result"] is None):
             self._check = "否"
         else :
             self._check = "是"
-        if (res2["result"] is None):
-            self._face = "无"
-        else :
-            self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
-        
-          
-            
-            
-            
-            
-            
-          
-
-

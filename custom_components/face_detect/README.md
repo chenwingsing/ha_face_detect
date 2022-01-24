@@ -1,4 +1,4 @@
-# HomeAssistant百度人脸检测插件v2.1.1
+# HomeAssistant百度人脸识别插件v2.1.1
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
 [![version](https://img.shields.io/badge/face__detect-v2.1.1-blue)](https://github.com/MrChanGG/ha_face_detect)
@@ -117,7 +117,7 @@ camera:
 
 **总体来说，本程序调用了百度的两个功能，一个是人脸检测功能，一个是人脸搜索功能，人脸检测可以用于监控陌生人路过，而人脸搜索可以用于家庭中识别人脸，进而可以触发一些有趣的效果，比如识别到不同家庭用户的脸，可以联动小爱同学发出不同的语音效果**。
 
-## 4.1 人脸识别功能
+## 4.1 人脸检测功能
 
 很丑，厚码了~😭
 
@@ -127,7 +127,7 @@ camera:
 
 ![效果](../../pic/example2.png)
 
-## 4.2 人脸搜索对比功能（需要在百度应用中上传人脸库，同时配置group_list）
+## 4.2 人脸识别功能（需要在百度应用中上传人脸库，同时配置group_list）
 
 如果人脸对比成功后，会在属性中显示你的百度中设置的id，注意，不只是在年龄这个传感器中有，我在每个传感器中都配置了这个属性，你在自动化联动的时候，可以任意选择其中一个传感器。
 

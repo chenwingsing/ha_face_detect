@@ -1,4 +1,4 @@
-# HomeAssistant百度人脸检测插件v2.1.1
+# HomeAssistant百度人脸识别插件v2.1.1
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
 [![version](https://img.shields.io/badge/face__detect-v2.1.1-blue)](https://github.com/MrChanGG/ha_face_detect)

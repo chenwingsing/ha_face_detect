@@ -1,14 +1,14 @@
-# HomeAssistant百度人脸检测插件v2.1.0
+# HomeAssistant百度人脸检测插件v2.1.1
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
-[![version](https://img.shields.io/badge/face__detect-v2.1.0-blue)](https://github.com/MrChanGG/ha_face_detect)
+[![version](https://img.shields.io/badge/face__detect-v2.1.1-blue)](https://github.com/MrChanGG/ha_face_detect)
 
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-# 更新时间：2022/1/23  如果你是旧版本的，可以重新下载安装配置
+# 更新时间：2022/1/24  如果你是旧版本的，可以重新下载安装配置
 
 # 1. 功能特性
 
@@ -28,17 +28,14 @@
 
 - 紧急修复用https登录的用户无法使用插件的问题
 
-## v2.0.2
-
-- 紧急修复某个实体可能不可用的bug
-
-## v2.0.3
-
-- 扫描时间优化
-
 ## v2.1.0
 
-- 增加定时清理功能，及时清理保存的截图(配置文件有变化)
+- 增加定时清理功能，及时清理保存的截图
+
+## v2.1.1
+
+- 属性"人脸对比"修改为"人脸识别"
+- 新增传感器"人脸识别"(注意配置文件有变化)
 
 # 2. 使用方法：
 
@@ -53,16 +50,14 @@
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
 
 - 第四步，前往[百度AI开放平台创建人脸识别应用](https://console.bce.baidu.com/ai/?fromai=1#/ai/face/overview/index)，本应用需要用到appid，apikey，secretkey
-  ![百度AI](pic/baidu1.png)
-  ![百度AI](pic/baidu2.png)
+  ![百度AI](../../pic/baidu1.png)
+  ![百度AI](../../pic/baidu2.png)
 
 - 第五步，在HA中创建一个令牌
 
 - 第六步，填写好configuration.yaml的内容，然后再重启一次HomeAssistant
 
 - 第七步，添加实体到概览上即可
-  
-  
 
 # 3. configuration.yaml内容如下
 
@@ -78,7 +73,7 @@ sensor:
     port: "*****" #运行Homeassistant的端口，必填项目，如8123
     group_list: "**,**,**" #百度应用内的查看人脸库用户组编号，最多可以填10个，请用英文逗号隔开
     scan_interval: 1 #扫描时间，默认这个即可
-    delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的截图文件，如果是1小时，则填3600
+    delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的文件，如果是1小时，则填3600
     options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项，选填项目
       - age #年龄
       - beauty #颜值打分
@@ -86,7 +81,8 @@ sensor:
       - gender #性别
       - glasses #佩戴眼镜识别
       - expression #表情
-      - faceshape #脸型识别（新增）
+      - faceshape #脸型识别
+      - facerecognition #人脸识别
 ```
 
 ## 3.1 entity_id怎么获取？
@@ -103,21 +99,19 @@ camera:
 
 ### 3.2.1 在百度上创建好人脸识别应用后，管理应用中有一个查看人脸库
 
-![查看人脸库](pic/baidu3.png)
+![查看人脸库](../../pic/baidu3.png)
 
 ### 3.2.2 点进去人脸库后可以创建用户组
 
-![用户组](pic/baidu4.png)
+![用户组](../../pic/baidu4.png)
 
 如图所示，我一共创建了3个用户组，分别是1,2,test，那么配置中需要填写**group_list:"1,2,test"** 注意最多可以填写10个用户组。
 
 ### 3.2.3 在用户组中创建你的人脸
 
-![用户组](pic/baidu5.png)
+![用户组](../../pic/baidu5.png)
 
 如图所示，我在用户组2中创建了两个人脸id，一个是chenyongcheng，一个是xiaoliu，也就是对应两个人的人脸，每个id可以上传多张照片，这样识别准确率更高。
-
- 
 
 # 4.效果示意图
 
@@ -127,32 +121,32 @@ camera:
 
 很丑，厚码了~😭
 
-![效果](pic/example1.png)
+![效果](../../pic/example1.png)
 
 云端识别到有人脸会自动保存信息
 
-![效果](pic/example2.png)
+![效果](../../pic/example2.png)
 
 ## 4.2 人脸搜索对比功能（需要在百度应用中上传人脸库，同时配置group_list）
 
 如果人脸对比成功后，会在属性中显示你的百度中设置的id，注意，不只是在年龄这个传感器中有，我在每个传感器中都配置了这个属性，你在自动化联动的时候，可以任意选择其中一个传感器。
 
-![效果](pic/example3.png)
+![效果](../../pic/example3.png)
 
 ## 5. 实体信息说明
 
 ## 5.1 实体可能出现的所有状态信息
 
-| 实体名称 | 状态                              | 备注               |
-|:----:|:-------------------------------:|:----------------:|
-| 年龄   | ~岁                              |                  |
-| 性别   | 男生\|女生                          |                  |
-| 情绪   | 愤怒\|厌恶\|恐惧\|高兴\|伤心\|惊讶\|无情绪\|鬼脸 |                  |
-| 颜值   | ~分                              | 0~100分，越高分表示颜值越高 |
-| 表情   | 没有微笑\|微笑\|大笑                    |                  |
-| 脸型   | 正方形脸\|三角形脸\|椭圆脸\|心型脸\|圆型脸       |                  |
-| 眼镜识别 | 没有佩戴眼镜\|普通眼镜\|墨镜                |                  |
-
+| 实体名称 | 状态                              | 备注                                                                   |
+|:----:|:-------------------------------:|:--------------------------------------------------------------------:|
+| 年龄   | ~岁                              |                                                                      |
+| 性别   | 男生\|女生                          |                                                                      |
+| 情绪   | 愤怒\|厌恶\|恐惧\|高兴\|伤心\|惊讶\|无情绪\|鬼脸 |                                                                      |
+| 颜值   | ~分                              | 0~100分，越高分表示颜值越高                                                     |
+| 表情   | 没有微笑\|微笑\|大笑                    |                                                                      |
+| 脸型   | 正方形脸\|三角形脸\|椭圆脸\|心型脸\|圆型脸       |                                                                      |
+| 眼镜识别 | 没有佩戴眼镜\|普通眼镜\|墨镜                |                                                                      |
+| 人脸识别 | 无\|返回人脸库的id                     | 若和你人脸库的对比成功，则返回你在百度人脸库中的id，与属性的人脸识别展示效果一样，设置属性是为了方便联动其他设备，传感器是为了展示状态 |
 
 ## 5.2 每个实体具备的属性
 
@@ -161,7 +155,7 @@ camera:
 | 更新时间 | xxxx年xx月xx日 上/下 午 xx : xx : xx | 调用百度api后返回实时时间，程序设置的是每1秒调用一次，实际上会有延迟            |
 | 强力支持 | Powered by BaiDuAI             | 致敬百度AI                                          |
 | 识别状态 | 是\|否                           | 可以用于进行联动，当识别到人脸则会返回是，否则返回否，利用这个特性你可以进行报警自动化联动功能 |
-| 人脸对比 | 无\|返回人脸库的id                    | 若和你人脸库的对比成功，则返回你在百度人脸库中的id                      |
+| 人脸识别 | 无\|返回人脸库的id                    | 若和你人脸库的对比成功，则返回你在百度人脸库中的id                      |
 
 ## 
 
@@ -217,13 +211,9 @@ mode: single
 
 **这里说明一点：识别状态和人脸对比这两个属性是每次调用百度API后就会改变，也就是和更新时间一样，而传感器的状态(如年龄，情绪，脸型状态)则是触发下一次识别到人脸才会改变哦。**
 
-
-
 # 7. 说明
 
 1. 为了方便设置传感器状态，本程序设置为只能识别一个人，百度其实是可以设置多人的，动手能力强的你可以自己修改程序。
-   
-   
 
 # 8. 扩展
 
@@ -244,8 +234,6 @@ mode: single
 - [树莓派HomeAssistant系列（六）海康威视摄像头接入零延时+摄像头截图（附海康威视RTSP设置）](https://zhuanlan.zhihu.com/p/458155266)
 
 - [树莓派HomeAssistant系列（七）普通摄像头赋能百度AI人脸检测](https://zhuanlan.zhihu.com/p/459588910)
-  
-  
 
 # 9. 参考
 

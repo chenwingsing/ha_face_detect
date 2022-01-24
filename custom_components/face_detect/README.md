@@ -1,14 +1,14 @@
-# HomeAssistant百度人脸检测插件v2.1.0
+# HomeAssistant百度人脸检测插件v2.1.1
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
-[![version](https://img.shields.io/badge/face__detect-v2.1.0-blue)](https://github.com/MrChanGG/ha_face_detect)
+[![version](https://img.shields.io/badge/face__detect-v2.1.1-blue)](https://github.com/MrChanGG/ha_face_detect)
 
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-# 更新时间：2022/1/23  如果你是旧版本的，可以重新下载安装配置
+# 更新时间：2022/1/24  如果你是旧版本的，可以重新下载安装配置
 
 # 1. 功能特性
 
@@ -30,7 +30,12 @@
 
 ## v2.1.0
 
-- 增加定时清理功能，及时清理保存的截图(配置文件有变化)
+- 增加定时清理功能，及时清理保存的截图
+
+## v2.1.1
+
+- 属性"人脸对比"修改为"人脸识别"
+- 新增传感器"人脸识别"(注意配置文件有变化)
 
 # 2. 使用方法：
 
@@ -70,7 +75,7 @@ sensor:
     port: "*****" #运行Homeassistant的端口，必填项目，如8123
     group_list: "**,**,**" #百度应用内的查看人脸库用户组编号，最多可以填10个，请用英文逗号隔开
     scan_interval: 1 #扫描时间，默认这个即可
-    delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的截图文件，如果是1小时，则填3600
+    delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的文件，如果是1小时，则填3600
     options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项，选填项目
       - age #年龄
       - beauty #颜值打分
@@ -78,7 +83,8 @@ sensor:
       - gender #性别
       - glasses #佩戴眼镜识别
       - expression #表情
-      - faceshape #脸型识别（新增）
+      - faceshape #脸型识别
+      - facerecognition #人脸识别
 ```
 
 ## 3.1 entity_id怎么获取？
@@ -144,6 +150,7 @@ camera:
 | 表情   | 没有微笑\|微笑\|大笑                    |                  |
 | 脸型   | 正方形脸\|三角形脸\|椭圆脸\|心型脸\|圆型脸       |                  |
 | 眼镜识别 | 没有佩戴眼镜\|普通眼镜\|墨镜                |                  |
+| 人脸识别 | 无|返回人脸库的id                | 若和你人脸库的对比成功，则返回你在百度人脸库中的id，与属性的人脸识别展示效果一样，设置属性是为了方便联动其他设备，传感器是为了展示状态，                 |
 
 
 ## 5.2 每个实体具备的属性
@@ -153,7 +160,7 @@ camera:
 | 更新时间 | xxxx年xx月xx日 上/下 午 xx : xx : xx | 调用百度api后返回实时时间，程序设置的是每1秒调用一次，实际上会有延迟            |
 | 强力支持 | Powered by BaiDuAI             | 致敬百度AI                                          |
 | 识别状态 | 是\|否                           | 可以用于进行联动，当识别到人脸则会返回是，否则返回否，利用这个特性你可以进行报警自动化联动功能 |
-| 人脸对比 | 无\|返回人脸库的id                    | 若和你人脸库的对比成功，则返回你在百度人脸库中的id                      |
+| 人脸识别 | 无\|返回人脸库的id                    | 若和你人脸库的对比成功，则返回你在百度人脸库中的id                      |
 
 ## 
 

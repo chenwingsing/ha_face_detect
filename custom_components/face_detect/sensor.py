@@ -31,13 +31,14 @@ OPTIONS = dict(age=["baidu_age", "年龄", "mdi:account", "岁"],
                gender=["baidu_gender", "性别", "mdi:gender-female", None],
                glasses=["baidu_glasses", "眼镜识别", "mdi:glasses", None],
                expression=["baidu_expression", "表情", "mdi:emoticon-neutral-outline", None],
-               faceshape=["baidu_faceshape", "脸型", "mdi:baby-face-outline", None]
+               faceshape=["baidu_faceshape", "脸型", "mdi:baby-face-outline", None],
+               facerecognition=["baidu_facerecognition", "人脸识别", "mdi:face-recognition", None]
                )
 
 ATTRIBUTION_UPDATE_TIME = "更新时间"
 ATTRIBUTION_CHECK = "识别状态"
 ATTRIBUTION_POWER = "强力支持"
-ATTRIBUTION_FACE = "人脸对比"
+ATTRIBUTION_FACE = "人脸识别"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {   vol.Required(CONF_OPTIONS, default=[]): vol.All(cv.ensure_list, [vol.In(OPTIONS)]),
@@ -145,6 +146,8 @@ class FaceDetectSensor(Entity):
             self._state = self._data.glasses
         elif self._type == "expression":
             self._state = self._data.expression
+        elif self._type == "facerecognition":
+            self._state = self._data.facerecognition
         elif self._type == "faceshape":
             self._state = self._data.faceshape
 
@@ -168,6 +171,7 @@ class FaceDetectdata(object):
         self._glasses = None
         self._expression = None
         self._faceshape = None
+        self._facerecognition = None
 
     @property
     def age(self):
@@ -205,9 +209,13 @@ class FaceDetectdata(object):
     def check(self):
         return self._check
     
-    @property  #人脸对比
+    @property  #人脸识别（属性)
     def face(self):
         return self._face
+
+    @property  #人脸识别（实体)
+    def facerecognition(self):
+        return self._facerecognition
         
         
     def get_picture(self):
@@ -338,8 +346,10 @@ class FaceDetectdata(object):
             
             self.save_picture(img_data , self._age, self._emotion, self._beauty, self._gender)
             self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
+            self._facerecognition = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
         except Exception as e:
             self._face = "无"
+            self._facerecognition = "无"
             logging.info(e)
         self._updatetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         if (res1["result"] is None):

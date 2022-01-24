@@ -50,8 +50,8 @@
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
 
 - 第四步，前往[百度AI开放平台创建人脸识别应用](https://console.bce.baidu.com/ai/?fromai=1#/ai/face/overview/index)，本应用需要用到appid，apikey，secretkey
-  ![百度AI](../../pic/baidu1.png)
-  ![百度AI](../../pic/baidu2.png)
+  ![百度AI](pic/baidu1.png)
+  ![百度AI](pic/baidu2.png)
 
 - 第五步，在HA中创建一个令牌
 
@@ -99,17 +99,17 @@ camera:
 
 ### 3.2.1 在百度上创建好人脸识别应用后，管理应用中有一个查看人脸库
 
-![查看人脸库](../../pic/baidu3.png)
+![查看人脸库](pic/baidu3.png)
 
 ### 3.2.2 点进去人脸库后可以创建用户组
 
-![用户组](../../pic/baidu4.png)
+![用户组](pic/baidu4.png)
 
 如图所示，我一共创建了3个用户组，分别是1,2,test，那么配置中需要填写**group_list:"1,2,test"** 注意最多可以填写10个用户组。
 
 ### 3.2.3 在用户组中创建你的人脸
 
-![用户组](../../pic/baidu5.png)
+![用户组](pic/baidu5.png)
 
 如图所示，我在用户组2中创建了两个人脸id，一个是chenyongcheng，一个是xiaoliu，也就是对应两个人的人脸，每个id可以上传多张照片，这样识别准确率更高。
 
@@ -121,17 +121,17 @@ camera:
 
 很丑，厚码了~😭
 
-![效果](../../pic/example1.png)
+![效果](pic/example1.png)
 
 云端识别到有人脸会自动保存信息
 
-![效果](../../pic/example2.png)
+![效果](pic/example2.png)
 
 ## 4.2 人脸搜索对比功能（需要在百度应用中上传人脸库，同时配置group_list）
 
 如果人脸对比成功后，会在属性中显示你的百度中设置的id，注意，不只是在年龄这个传感器中有，我在每个传感器中都配置了这个属性，你在自动化联动的时候，可以任意选择其中一个传感器。
 
-![效果](../../pic/example3.png)
+![效果](pic/example3.png)
 
 ## 5. 实体信息说明
 

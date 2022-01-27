@@ -1,14 +1,14 @@
-# HomeAssistant百度人脸识别插件v2.1.1
+# HomeAssistant百度人脸识别插件v2.1.2
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
-[![version](https://img.shields.io/badge/face__detect-v2.1.1-blue)](https://github.com/MrChanGG/ha_face_detect)
+[![version](https://img.shields.io/badge/face__detect-v2.1.2-blue)](https://github.com/MrChanGG/ha_face_detect)
 
 ![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
 ![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-# 更新时间：2022/1/24  如果你是旧版本的，可以重新下载安装配置
+# 更新时间：2022/1/28  如果你是旧版本的，可以重新下载安装配置
 
 # 1. 功能特性
 
@@ -37,6 +37,11 @@
 - 属性"人脸对比"修改为"人脸识别"
 - 新增传感器"人脸识别"(注意配置文件有变化)
 
+## v2.1.2
+
+- 修复传感器情绪状态为"pouty"不显示中文的bug
+- 修复一个可能引起实体不可使用的bug
+
 # 2. 使用方法：
 
 - 第一步，在HomeAssistant根目录中建立文件夹custom_components
@@ -50,8 +55,8 @@
 - **第三步，重启HomeAssistant，否则无法配置configuration.yaml，会提示找不到集成**
 
 - 第四步，前往[百度AI开放平台创建人脸识别应用](https://console.bce.baidu.com/ai/?fromai=1#/ai/face/overview/index)，本应用需要用到appid，apikey，secretkey
-  ![百度AI](pic/baidu1.png)
-  ![百度AI](pic/baidu2.png)
+  ![百度AI](../../pic/baidu1.png)
+  ![百度AI](../../pic/baidu2.png)
 
 - 第五步，在HA中创建一个令牌
 
@@ -74,7 +79,7 @@ sensor:
     group_list: "**,**,**" #百度应用内的查看人脸库用户组编号，最多可以填10个，请用英文逗号隔开
     scan_interval: 1 #扫描时间，默认这个即可
     delete_time: "60" #设置定时清理截图文件，单位为秒，这里表示及时清理60秒之前的文件，如果是1小时，则填3600
-    options: #可选识别的类型，可选一个或者多个，我的效果图中没有表情，表示我没有选择这一项，选填项目
+    options: #可选识别的类型，可选一个或者多个。
       - age #年龄
       - beauty #颜值打分
       - emotion #情绪
@@ -82,7 +87,7 @@ sensor:
       - glasses #佩戴眼镜识别
       - expression #表情
       - faceshape #脸型识别
-      - facerecognition #人脸识别
+      - facerecognition #人脸识别（需要设置group_list同时在百度应用上传人脸）
 ```
 
 ## 3.1 entity_id怎么获取？
@@ -99,39 +104,39 @@ camera:
 
 ### 3.2.1 在百度上创建好人脸识别应用后，管理应用中有一个查看人脸库
 
-![查看人脸库](pic/baidu3.png)
+![查看人脸库](../../pic/baidu3.png)
 
 ### 3.2.2 点进去人脸库后可以创建用户组
 
-![用户组](pic/baidu4.png)
+![用户组](../../pic/baidu4.png)
 
 如图所示，我一共创建了3个用户组，分别是1,2,test，那么配置中需要填写**group_list:"1,2,test"** 注意最多可以填写10个用户组。
 
 ### 3.2.3 在用户组中创建你的人脸
 
-![用户组](pic/baidu5.png)
+![用户组](../../pic/baidu5.png)
 
 如图所示，我在用户组2中创建了两个人脸id，一个是chenyongcheng，一个是xiaoliu，也就是对应两个人的人脸，每个id可以上传多张照片，这样识别准确率更高。
 
 # 4.效果示意图
 
-**总体来说，本程序调用了百度的两个功能，一个是人脸检测功能，一个是人脸识别功能，人脸检测可以用于监控陌生人路过，而人脸识别可以用于家庭中识别人脸，进而可以触发一些有趣的效果，比如识别到不同家庭用户的脸，可以联动小爱同学发出不同的语音效果**。
+**总体来说，本程序调用了百度的两个功能，一个是人脸检测功能，一个是人脸搜索功能，人脸检测可以用于监控陌生人路过，而人脸识别可以用于家庭中识别人脸，进而可以触发一些有趣的效果，比如识别到不同家庭用户的脸，可以联动小爱同学发出不同的语音效果**。
 
 ## 4.1 人脸检测功能
 
 很丑，厚码了~😭
 
-![效果](pic/example1.png)
+![效果](../../pic/example1.png)
 
 云端识别到有人脸会自动保存信息
 
-![效果](pic/example2.png)
+![效果](../../pic/example2.png)
 
 ## 4.2 人脸识别功能（需要在百度应用中上传人脸库，同时配置group_list）
 
 如果人脸对比成功后，会在属性中显示你的百度中设置的id，注意，不只是在年龄这个传感器中有，我在每个传感器中都配置了这个属性，你在自动化联动的时候，可以任意选择其中一个传感器。
 
-![效果](pic/example3.png)
+![效果](../../pic/example3.png)
 
 ## 5. 实体信息说明
 
@@ -141,7 +146,7 @@ camera:
 |:----:|:-------------------------------:|:--------------------------------------------------------------------:|
 | 年龄   | ~岁                              |                                                                      |
 | 性别   | 男生\|女生                          |                                                                      |
-| 情绪   | 愤怒\|厌恶\|恐惧\|高兴\|伤心\|惊讶\|无情绪\|鬼脸 |                                                                      |
+| 情绪   | 愤怒\|厌恶\|恐惧\|高兴\|伤心\|惊讶\|无情绪\|鬼脸\|翘嘴  |                                                                      |
 | 颜值   | ~分                              | 0~100分，越高分表示颜值越高                                                     |
 | 表情   | 没有微笑\|微笑\|大笑                    |                                                                      |
 | 脸型   | 正方形脸\|三角形脸\|椭圆脸\|心型脸\|圆型脸       |                                                                      |

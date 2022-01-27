@@ -6,5 +6,5 @@
   "requirements": ["baidu-aip==2.2.18.0"],
   "codeowners": ["@MrChanGG"],
   "dependencies": [],
-  "version": "2.1.1"
+  "version": "2.1.2"
 }

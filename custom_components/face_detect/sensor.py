@@ -284,7 +284,10 @@ class FaceDetectdata(object):
         res1, img_data, res2 = self.baidu_facedetect()
         _LOGGER.info("Update from BaiDuAI...")
         try :
-            
+            if (res1["result"] is  None):
+                self._check = "否"
+            else :
+                self._check = "是"
             self._age = res1["result"]["face_list"][0]["age"]
             self._beauty = res1["result"]["face_list"][0]["beauty"]
             
@@ -305,6 +308,8 @@ class FaceDetectdata(object):
                 emotion = "无情绪"
             elif (emotion == "grimace"):
                 emotion = "鬼脸"
+            elif (emotion == "pouty"):
+                emotion = "翘嘴"
             self._emotion = emotion
             
             gender = res1["result"]["face_list"][0]["gender"]["type"]
@@ -346,6 +351,7 @@ class FaceDetectdata(object):
             self._faceshape = faceshape
             
             self.save_picture(img_data , self._age, self._emotion, self._beauty, self._gender)
+            
             self._face = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
             self._facerecognition = res2["result"]["face_list"][0]["user_list"][0]["user_id"]
         except Exception as e:
@@ -353,8 +359,4 @@ class FaceDetectdata(object):
             self._facerecognition = "无"
             logging.info(e)
         self._updatetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        if (res1["result"] is None):
-            self._check = "否"
-        else :
-            self._check = "是"
         self.removefile()

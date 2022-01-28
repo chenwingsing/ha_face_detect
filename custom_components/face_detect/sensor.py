@@ -283,11 +283,12 @@ class FaceDetectdata(object):
         res1 = {"result":None}
         res1, img_data, res2 = self.baidu_facedetect()
         _LOGGER.info("Update from BaiDuAI...")
+        if (res1["result"] is  None):
+            self._check = "否"
+        else :
+            self._check = "是"
         try :
-            if (res1["result"] is  None):
-                self._check = "否"
-            else :
-                self._check = "是"
+
             self._age = res1["result"]["face_list"][0]["age"]
             self._beauty = res1["result"]["face_list"][0]["beauty"]
             

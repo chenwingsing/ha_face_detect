@@ -280,8 +280,11 @@ class FaceDetectdata(object):
     
     @Throttle(TIME_BETWEEN_UPDATES)
     def update(self):
-        res1 = {"result":None}
-        res1, img_data, res2 = self.baidu_facedetect()
+        try:
+            res1, img_data, res2 = self.baidu_facedetect()
+        except:
+            res1 = {"result":None}
+            
         _LOGGER.info("Update from BaiDuAI...")
         if (res1["result"] is  None):
             self._check = "否"

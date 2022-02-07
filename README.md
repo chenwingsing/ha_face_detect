@@ -8,7 +8,7 @@
 ![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-# 更新时间：2022/2/7([更新README关于人脸识别返回223202的错误原因](### 3.2.2 点进去人脸库后可以创建用户组))  如果你是旧版本的，可以重新下载安装配置
+# 更新时间：2022/2/7[更新README关于人脸识别返回223202的错误原因](###3.2.2 点进去人脸库后可以创建用户组)  如果你是旧版本的，可以重新下载安装配置
 
 # 1. 功能特性
 

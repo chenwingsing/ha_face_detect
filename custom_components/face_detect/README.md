@@ -1,11 +1,11 @@
 # HomeAssistant百度人脸识别插件v2.1.2
 
 [![hacs_badge](https://img.shields.io/badge/Home-Assistant-%23049cdb)](https://www.home-assistant.io/)
-[![version](https://img.shields.io/badge/face__detect-v2.1.2-blue)](https://github.com/MrChanGG/ha_face_detect)
+[![version](https://img.shields.io/badge/face__detect-v2.1.2-blue)](https://github.com/chenwingsing/ha_face_detect)
 
-![visit](https://visitor-badge.glitch.me/badge?page_id=MrChanGG.ha_face_detect&left_text=visit)
-![forks](https://img.shields.io/github/forks/MrChanGG/ha_face_detect)
-![stars](https://img.shields.io/github/stars/MrChanGG/ha_face_detect)
+![visit](https://visitor-badge.glitch.me/badge?page_id=chenwingsing.ha_face_detect&left_text=visit)
+![forks](https://img.shields.io/github/forks/chenwingsing/ha_face_detect)
+![stars](https://img.shields.io/github/stars/chenwingsing/ha_face_detect)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
 # 更新时间：2022/2/7[更新README关于人脸识别返回223202的错误原因，人脸识别一直为无的也请点击这里](#322-点进去人脸库后可以创建用户组)  如果你是旧版本的，可以重新下载安装配置

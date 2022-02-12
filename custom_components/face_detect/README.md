@@ -65,7 +65,7 @@
 - 第七步，添加实体到概览上即可
 
 # 3. configuration.yaml内容如下
-
+请注意下面只需要修改引号内的内容，不要把引号给删除了！！！
 ```yaml
 sensor:
   - platform: face_detect
